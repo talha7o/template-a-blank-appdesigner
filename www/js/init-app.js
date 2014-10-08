@@ -37,22 +37,24 @@ app.initEvents = function() {
     var fName = "app.initEvents():" ;
     app.consoleLog(fName, "entry") ;
 
-    // initialize third-party libraries and event handlers
+    // NOTE: initialize your third-party libraries and event handlers
 
     // initThirdPartyLibraryNumberOne() ;
     // initThirdPartyLibraryNumberTwo() ;
     // initThirdPartyLibraryNumberEtc() ;
 
-    // initialize application code
+    // NOTE: initialize your application code
 
     // initMyAppCodeNumberOne() ;
     // initMyAppCodeNumberTwo() ;
     // initMyAppCodeNumberEtc() ;
 
-    // Initialize app event handlers.
-    // See app.js for a simple example.
+    // NOTE: initialize your app event handlers, see app.js for a simple event handler example
 
-//... overly simple example...
+    // TODO: configure following to work with both touch and click events (mouse + touch)
+    // see http://msopentech.com/blog/2013/09/16/add-pinch-pointer-events-apache-cordova-phonegap-app/
+
+//...overly simple example...
 //    var el, evt ;
 //
 //    if( navigator.msPointerEnabled || !('ontouchend' in window))    // if on Win 8 machine or no touch
@@ -63,14 +65,11 @@ app.initEvents = function() {
 //    el = document.getElementById("id_btnHello") ;
 //    el.addEventListener(evt, myEventHandler, false) ;
 
-    // after init is all done is a good time to remove our splash screen
+    // NOTE: ...you can put other miscellaneous init stuff in this function...
+    // NOTE: ...and add whatever else you want to do now that the app has started...
 
-    app.hideSplashScreen() ;                // using a splash screen is optional for your app
-
-    // ...and whatever else you want to do now that the app has started...
-    // The following is just for debug, not required; keep it if you want or get rid of it.
-
-    // ...other miscellaneous init stuff here...
+    app.initDebug() ;           // just for debug, not required; keep it if you want it or get rid of it
+    app.hideSplashScreen() ;    // after init is good time to remove splash screen; using a splash screen is optional
 
     // app initialization is done
     // app event handlers are ready
@@ -120,11 +119,16 @@ app.hideSplashScreen = function() {
     var fName = "app.hideSplashScreen():" ;
     app.consoleLog(fName, "entry") ;
 
-    if( navigator.splashscreen ) {                              // Cordova API detected
+    // see https://github.com/01org/appframework/blob/master/documentation/detail/%24.ui.launch.md
+    // Do the following if you disabled App Framework autolaunch (in index.html, for example)
+    // $.ui.launch() ;
+
+    if( navigator.splashscreen && navigator.splashscreen.hide ) {   // Cordova API detected
         navigator.splashscreen.hide() ;
     }
-    if( window.intel && intel.xdk && intel.xdk.device ) {       // Intel XDK API detected
-        intel.xdk.device.hideSplashScreen() ;
+    if( window.intel && intel.xdk && intel.xdk.device ) {           // Intel XDK device API detected, but...
+        if( intel.xdk.device.hideSplashScreen )                     // ...hideSplashScreen() is inside the base plugin
+            intel.xdk.device.hideSplashScreen() ;
     }
 
     app.consoleLog(fName, "exit") ;
