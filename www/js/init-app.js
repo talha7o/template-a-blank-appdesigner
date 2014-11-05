@@ -107,7 +107,6 @@ app.initDebug = function() {
 
     app.consoleLog(fName, "exit") ;
 } ;
-document.addEventListener("app.Ready", app.initDebug, false) ;
 
 
 
